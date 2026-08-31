@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>DISpatcher · Master Index</title>
+
+    <style>
+        body { background:#111; color:#eee; font-family:monospace; padding:20px; }
+        h1 { color:#0ff; }
+        .mod { margin:10px 0; padding:10px; background:#222; border-left:4px solid #0ff; }
+    </style>
+
+    <script type="module">
+
+        // ───────────────────────────────────────────────
+        // MASTER‑DISPATCHER · Lädt ALLE Module
+        // ───────────────────────────────────────────────
+
+        async function load(path) {
+            try {
+                return await import(path);
+            } catch (e) {
+                console.warn("Fehlt:", path);
+                return null;
+            }
+        }
+
+        // READY‑MODULE
+        const bewegung   = await load("./RUN/bewegung.ready");
+        const asym       = await load("./RUN/asymilation.ready");
+        const desama     = await load("./RUN/desamalatzion.ready");
+        const move       = await load("./move.ready");
+        const gpu        = await load("./gpu.ready");
+        const ram        = await load("./r/ram.ready");
+        const dual       = await load("./r/dual.ready");
+
+        // RUN‑PIPELINES
+        const run3       = await load("./RUN/3.pipelineblitz.js");
+        const run3plus   = await load("./RUN/RUN3plus.js");
+        const runReady   = await load("./run.ready");
+
+        // ACHSEN / ORBIT / ENGINE
+        const axes       = await load("./axes.js");
+        const cube9      = await load("./cube9.js");
+        const orbit      = await load("./cxr.orbit.js");
+        const engine     = await load("./engine.js");
+        const ultra      = await load("./ultra.kernel.js");
+        const rith       = await load("./rith.engine.js");
+
+        // NC‑MATH
+        const ncMath     = await load("./NC.math");
+        const ncPre      = await load("./PRE9×9.math");
+        const ncNext     = await load("./NC.vector.next");
+        const ncFix      = await load("./NC.pruefung.fix");
+
+        // ROOM‑SYSTEM
+        const roomCore   = await load("./X.room.CORE");
+        const roomIn     = await load("./X.room.IN");
+        const roomOut    = await load("./X.room.OUT");
+        const room81     = await load("./81.room");
+        const room3x3    = await load("./ULTRA‑NC3×3.room");
+        const room9x9    = await load("./ULTRA‑NC9×9.room");
+
+        // FUSION
+        const fusion9    = await load("./fusion9.js");
+        const fusionFix  = await load("./FUSION.fix");
+
+        // NAVIGATION
+        const nav9       = await load("./navigator9.js");
+        const lage       = await load("./lage.js");
+
+        // GHOST‑LAYER
+        const ghost      = await load("./ghost.js");
+
+        // BUSINESS‑LAYER
+        const bench1     = await load("./station-01.bench.item");
+        const bench2     = await load("./station-02.bench.item");
+        const plan       = await load("./u4x-bench-plan.item");
+        const operator   = await load("./u4x-operator.item");
+
+        // RAM‑HARDWARE
+        const ramHW      = await load("./r/RAM.hardware.js");
+        const ramID      = await load("./r/RAM‑ID.js");
+        const ramMod     = await load("./r/RAM.module");
+
+        // ───────────────────────────────────────────────
+        // MASTER‑START
+        // ───────────────────────────────────────────────
+
+        console.log("DISpatcher · Master Index geladen");
+        console.log({
+            bewegung, asym, desama, move, gpu, ram, dual,
+            run3, run3plus, runReady,
+            axes, cube9, orbit, engine, ultra, rith,
+            ncMath, ncPre, ncNext, ncFix,
+            roomCore, roomIn, roomOut, room81, room3x3, room9x9,
+            fusion9, fusionFix,
+            nav9, lage,
+            ghost,
+            bench1, bench2, plan, operator,
+            ramHW, ramID, ramMod
+        });
+
+    </script>
+</head>
+
+<body>
+    <h1>DISpatcher · MASTER INDEX</h1>
+    <div class="mod">Alle Module wurden geladen. Siehe Konsole.</div>
+</body>
+</html>
