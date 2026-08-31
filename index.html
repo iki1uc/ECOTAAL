@@ -2,110 +2,255 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>DISpatcher · Master Index</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASTER‑DISPATCHER · ALLE MODULE · iki1uc</title>
 
     <style>
-        body { background:#111; color:#eee; font-family:monospace; padding:20px; }
-        h1 { color:#0ff; }
-        .mod { margin:10px 0; padding:10px; background:#222; border-left:4px solid #0ff; }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#0a0a12;color:#d0d9e6;font-family:'Consolas',monospace;padding:20px;min-height:100vh}
+        h1{text-align:center;letter-spacing:4px;font-weight:300;font-size:24px;background:linear-gradient(90deg,#ffd700,#00ccff,#ff66ff,#00ff88);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
+        h1 small{font-size:11px;display:block;color:#3d5a70;-webkit-text-fill-color:#3d5a70;letter-spacing:2px}
+        .panel{background:rgba(255,255,255,0.03);padding:12px;border-radius:8px;margin-bottom:10px;border:1px solid rgba(0,200,255,0.06)}
+        .panel h3{font-size:10px;color:#3d5a70;letter-spacing:2px;margin-bottom:6px;text-transform:uppercase}
+        .flex{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin:4px 0}
+        .badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:8px;margin:2px;background:#0a1a2a;color:#66ccff;border:1px solid #1a2a3a}
+        .badge.ok{background:#0a2a1a;color:#6bffa9;border-color:#1a3a2a}
+        .badge.err{background:#2a0a0a;color:#ff6b8a;border-color:#3a1a1a}
+        .badge.warn{background:#2a1a0a;color:#ffd700;border-color:#3a2a1a}
+        .badge.info{background:#0a1a2a;color:#66ccff;border-color:#1a2a3a}
+        .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        @media(max-width:700px){.grid2{grid-template-columns:1fr}}
+        pre{background:rgba(0,0,0,0.4);padding:10px;border-radius:6px;border:1px solid rgba(0,200,255,0.05);font-size:9px;line-height:1.4;white-space:pre-wrap;color:#8ab4c8;margin:4px 0;max-height:150px;overflow:auto}
+        .console{background:#0a0a0a;padding:8px;border-radius:4px;font-size:7px;color:#3d5a70;max-height:100px;overflow-y:auto;border:1px solid #111;line-height:1.5}
+        .console .ok{color:#6bffa9}
+        .console .warn{color:#ffd700}
+        .console .info{color:#66ccff}
+        .console .err{color:#ff6b8a}
+        button{background:#0f0;color:#000;font-weight:bold;border:none;padding:4px 12px;border-radius:4px;font-family:monospace;font-size:10px;cursor:pointer;margin:2px}
+        button:hover{background:#0ff}
+        button.sec{background:transparent;color:#0f0;border:1px solid #0f0}
+        button.sec:hover{background:#0f0;color:#000}
+        button.gold{background:#ffd700;color:#000}
+        button.gold:hover{background:#ffaa00}
+        .module-grid{display:flex;flex-wrap:wrap;gap:3px;margin:4px 0}
+        .module-grid .mod{background:#0a0a0a;padding:2px 8px;border-radius:3px;font-size:7px;border:1px solid #1a1a2a;color:#3d5a70;transition:0.2s}
+        .module-grid .mod.loaded{color:#6bffa9;border-color:#6bffa9}
+        .module-grid .mod.fail{color:#ff6b8a;border-color:#ff6b8a}
+        .stat-row{display:flex;flex-wrap:wrap;gap:8px;font-size:9px;color:#5a7a8a;margin:4px 0}
+        .stat-row span{background:rgba(255,255,255,0.02);padding:2px 8px;border-radius:3px}
     </style>
-
-    <script type="module">
-
-        // ───────────────────────────────────────────────
-        // MASTER‑DISPATCHER · Lädt ALLE Module
-        // ───────────────────────────────────────────────
-
-        async function load(path) {
-            try {
-                return await import(path);
-            } catch (e) {
-                console.warn("Fehlt:", path);
-                return null;
-            }
-        }
-
-        // READY‑MODULE
-        const bewegung   = await load("./RUN/bewegung.ready");
-        const asym       = await load("./RUN/asymilation.ready");
-        const desama     = await load("./RUN/desamalatzion.ready");
-        const move       = await load("./move.ready");
-        const gpu        = await load("./gpu.ready");
-        const ram        = await load("./r/ram.ready");
-        const dual       = await load("./r/dual.ready");
-
-        // RUN‑PIPELINES
-        const run3       = await load("./RUN/3.pipelineblitz.js");
-        const run3plus   = await load("./RUN/RUN3plus.js");
-        const runReady   = await load("./run.ready");
-
-        // ACHSEN / ORBIT / ENGINE
-        const axes       = await load("./axes.js");
-        const cube9      = await load("./cube9.js");
-        const orbit      = await load("./cxr.orbit.js");
-        const engine     = await load("./engine.js");
-        const ultra      = await load("./ultra.kernel.js");
-        const rith       = await load("./rith.engine.js");
-
-        // NC‑MATH
-        const ncMath     = await load("./NC.math");
-        const ncPre      = await load("./PRE9×9.math");
-        const ncNext     = await load("./NC.vector.next");
-        const ncFix      = await load("./NC.pruefung.fix");
-
-        // ROOM‑SYSTEM
-        const roomCore   = await load("./X.room.CORE");
-        const roomIn     = await load("./X.room.IN");
-        const roomOut    = await load("./X.room.OUT");
-        const room81     = await load("./81.room");
-        const room3x3    = await load("./ULTRA‑NC3×3.room");
-        const room9x9    = await load("./ULTRA‑NC9×9.room");
-
-        // FUSION
-        const fusion9    = await load("./fusion9.js");
-        const fusionFix  = await load("./FUSION.fix");
-
-        // NAVIGATION
-        const nav9       = await load("./navigator9.js");
-        const lage       = await load("./lage.js");
-
-        // GHOST‑LAYER
-        const ghost      = await load("./ghost.js");
-
-        // BUSINESS‑LAYER
-        const bench1     = await load("./station-01.bench.item");
-        const bench2     = await load("./station-02.bench.item");
-        const plan       = await load("./u4x-bench-plan.item");
-        const operator   = await load("./u4x-operator.item");
-
-        // RAM‑HARDWARE
-        const ramHW      = await load("./r/RAM.hardware.js");
-        const ramID      = await load("./r/RAM‑ID.js");
-        const ramMod     = await load("./r/RAM.module");
-
-        // ───────────────────────────────────────────────
-        // MASTER‑START
-        // ───────────────────────────────────────────────
-
-        console.log("DISpatcher · Master Index geladen");
-        console.log({
-            bewegung, asym, desama, move, gpu, ram, dual,
-            run3, run3plus, runReady,
-            axes, cube9, orbit, engine, ultra, rith,
-            ncMath, ncPre, ncNext, ncFix,
-            roomCore, roomIn, roomOut, room81, room3x3, room9x9,
-            fusion9, fusionFix,
-            nav9, lage,
-            ghost,
-            bench1, bench2, plan, operator,
-            ramHW, ramID, ramMod
-        });
-
-    </script>
 </head>
-
 <body>
-    <h1>DISpatcher · MASTER INDEX</h1>
-    <div class="mod">Alle Module wurden geladen. Siehe Konsole.</div>
+
+<h1>⚡ MASTER‑DISPATCHER</h1>
+<h1 style="font-size:12px;margin-top:-2px;background:none;-webkit-text-fill-color:#3d5a70;color:#3d5a70;font-weight:400">ALLE MODULE · GELADEN · VERBUNDEN</h1>
+
+<div class="grid2">
+
+    <!-- Linke Spalte -->
+    <div>
+        <div class="panel">
+            <h3>🎯 MASTER · STEUERUNG</h3>
+            <div class="flex">
+                <button class="gold" onclick="loadAll()">⚡ LADE ALLE MODULE</button>
+                <button onclick="runGeneral()">▶ GENERAL RUN</button>
+                <button onclick="resetDisplay()">⟲ RESET</button>
+                <button class="sec" onclick="showStatus()">📊 STATUS</button>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3>📦 MODULE · STATUS</h3>
+            <div class="module-grid" id="moduleGrid">
+                <span class="mod">⏳ warte...</span>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3>📊 STATISTIK</h3>
+            <div class="stat-row" id="stats">
+                <span>GELADEN: <span id="loadedCount" style="color:#6bffa9">0</span></span>
+                <span>FEHLER: <span id="failCount" style="color:#ff6b8a">0</span></span>
+                <span>GESAMT: <span id="totalCount" style="color:#66ccff">0</span></span>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3>📜 CONSOLE · LOG</h3>
+            <div class="console" id="consoleLog">⏳ system initialisiert...</div>
+        </div>
+    </div>
+
+    <!-- Rechte Spalte -->
+    <div>
+        <div class="panel">
+            <h3>🧠 GELADENE MODULE · DETAILS</h3>
+            <pre id="moduleDetails">⏳ warte auf Laden...</pre>
+        </div>
+
+        <div class="panel">
+            <h3>🔗 MODUL‑PFADE</h3>
+            <pre id="modulePaths" style="font-size:7px">⏳ warte...</pre>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// MASTER‑DISPATCHER · ALLE MODULE LADEN
+// ============================================================
+
+const consoleLog = document.getElementById('consoleLog');
+const moduleGrid = document.getElementById('moduleGrid');
+const moduleDetails = document.getElementById('moduleDetails');
+const modulePaths = document.getElementById('modulePaths');
+const loadedCount = document.getElementById('loadedCount');
+const failCount = document.getElementById('failCount');
+const totalCount = document.getElementById('totalCount');
+
+const log = (msg, type = 'info') => {
+    const t = new Date().toLocaleTimeString();
+    const cls = type === 'ok' ? 'ok' : type === 'warn' ? 'warn' : type === 'err' ? 'err' : 'info';
+    consoleLog.innerHTML += `<div class="${cls}">[${t}] ${msg}</div>`;
+    consoleLog.scrollTop = consoleLog.scrollHeight;
+    if (consoleLog.children.length > 50) consoleLog.removeChild(consoleLog.firstChild);
+};
+
+const modules = {};
+
+// ─── ALLE MODUL‑PFADE ─────────────────────────────────────────
+const MODULE_LIST = [
+    // Root
+    { name: '3.js', path: './3.js' },
+    { name: '9.js', path: './9.js' },
+    { name: '81.js', path: './81.js' },
+    { name: 'api.js', path: './api.js' },
+    { name: 'axes.js', path: './axes.js' },
+    { name: 'cube9.js', path: './cube9.js' },
+    { name: 'cxr.orbit.js', path: './cxr.orbit.js' },
+    { name: 'engine.js', path: './engine.js' },
+    { name: 'fusion9.js', path: './fusion9.js' },
+    { name: 'ghost.js', path: './ghost.js' },
+    { name: 'lage.js', path: './lage.js' },
+    { name: 'navigator9.js', path: './navigator9.js' },
+    { name: 'pipeline12.master.js', path: './pipeline12.master.js' },
+    { name: 'respo_bridge.js', path: './respo_bridge.js' },
+    { name: 'rith.engine.js', path: './rith.engine.js' },
+    { name: 'schnitt.js', path: './schnitt.js' },
+    { name: 'tmp.js', path: './tmp.js' },
+    { name: 'ultra.kernel.js', path: './ultra.kernel.js' },
+    { name: 'OUR.js', path: './OUR.js' },
+    // RUN
+    { name: 'neucity.js', path: './RUN/neucity.js' },
+    { name: 'oldcity.js', path: './RUN/oldcity.js' },
+    // api
+    { name: 'api/27.js', path: './api/27.js' },
+    { name: 'api/3.js', path: './api/3.js' },
+    { name: 'api/81.js', path: './api/81.js' },
+    { name: 'api/9.js', path: './api/9.js' },
+    // business
+    { name: 'business/OS_CORE.js', path: './business/OS_CORE.js' },
+    { name: 'business/QI.js', path: './business/QI.js' },
+    { name: 'business/coreScan.js', path: './business/coreScan.js' },
+    { name: 'business/pipelineP0.js', path: './business/pipelineP0.js' },
+    { name: 'business/pipelineP1.js', path: './business/pipelineP1.js' },
+    { name: 'business/pipelineP2.js', path: './business/pipelineP2.js' },
+    { name: 'business/pipelineP4.js', path: './business/pipelineP4.js' },
+    { name: 'business/pipelinePe.js', path: './business/pipelinePe.js' },
+    { name: 'business/win.qi_404.js', path: './business/win.qi_404.js' },
+    // sli/l
+    { name: 'sli/l/ID.core.js', path: './sli/l/ID.core.js' },
+    // r
+    { name: 'r/RAM.hardware.js', path: './r/RAM.hardware.js' },
+    { name: 'r/RAM-ID.js', path: './r/RAM-ID.js' }
+];
+
+// ─── LADE ALLE MODULE ──────────────────────────────────────────
+async function loadAll() {
+    log('🚀 Lade alle Module...', 'warn');
+    moduleGrid.innerHTML = '';
+    let loaded = 0, failed = 0;
+    const details = {};
+    const paths = [];
+
+    for (const mod of MODULE_LIST) {
+        try {
+            const imported = await import(mod.path);
+            modules[mod.name] = imported;
+            loaded++;
+            details[mod.name] = Object.keys(imported);
+            paths.push(`✅ ${mod.path}`);
+            log(`✅ geladen: ${mod.name}`, 'ok');
+            // Grid anzeigen
+            const span = document.createElement('span');
+            span.className = 'mod loaded';
+            span.textContent = mod.name;
+            moduleGrid.appendChild(span);
+        } catch (e) {
+            failed++;
+            log(`❌ Fehler: ${mod.name} – ${e.message}`, 'err');
+            const span = document.createElement('span');
+            span.className = 'mod fail';
+            span.textContent = mod.name;
+            moduleGrid.appendChild(span);
+        }
+    }
+
+    totalCount.textContent = MODULE_LIST.length;
+    loadedCount.textContent = loaded;
+    failCount.textContent = failed;
+
+    moduleDetails.textContent = JSON.stringify(details, null, 2);
+    modulePaths.textContent = paths.join('\n');
+
+    log(`📊 Fertig: ${loaded}/${MODULE_LIST.length} geladen, ${failed} fehlgeschlagen`, 'ok');
+}
+
+// ─── GENERAL RUN ──────────────────────────────────────────────
+function runGeneral() {
+    log('⚡ GENERAL RUN · führe geladene Module aus', 'warn');
+    let out = '🧠 Modul‑Test:\n';
+    for (const [name, mod] of Object.entries(modules)) {
+        const keys = Object.keys(mod);
+        out += `${name}: ${keys.join(', ')}\n`;
+    }
+    document.getElementById('moduleDetails').textContent = out;
+    log('✅ GENERAL RUN abgeschlossen', 'ok');
+}
+
+// ─── STATUS ────────────────────────────────────────────────────
+function showStatus() {
+    const names = Object.keys(modules);
+    log(`📊 ${names.length} Module geladen: ${names.join(', ')}`, 'info');
+}
+
+// ─── RESET ────────────────────────────────────────────────────
+function resetDisplay() {
+    document.getElementById('moduleDetails').textContent = '⏳ zurückgesetzt...';
+    document.getElementById('modulePaths').textContent = '⏳ zurückgesetzt...';
+    moduleGrid.innerHTML = '<span class="mod">⏳ bereit</span>';
+    loadedCount.textContent = '0';
+    failCount.textContent = '0';
+    totalCount.textContent = '0';
+    consoleLog.innerHTML = '⏳ system zurückgesetzt...';
+    log('⟲ RESET', 'info');
+}
+
+// ─── AUTO‑LOAD ────────────────────────────────────────────────
+window.onload = function() {
+    log('🚀 MASTER‑DISPATCHER · System initialisiert', 'info');
+    log('📦 Klicke "LADE ALLE MODULE" um zu starten', 'warn');
+    // Automatisch laden
+    setTimeout(loadAll, 500);
+};
+
+// Globale Funktionen für Buttons
+window.loadAll = loadAll;
+window.runGeneral = runGeneral;
+window.showStatus = showStatus;
+window.resetDisplay = resetDisplay;
+
+console.log('⚡ MASTER‑DISPATCHER · index.html geladen');
+</script>
 </body>
 </html>
